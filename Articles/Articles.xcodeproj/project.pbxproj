@@ -16,7 +16,8 @@
 		E02CD7FF1AE7DC1E00A9A6A6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E02CD7FD1AE7DC1E00A9A6A6 /* LaunchScreen.xib */; };
 		E02CD80B1AE7DC1E00A9A6A6 /* ArticlesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD80A1AE7DC1E00A9A6A6 /* ArticlesTests.m */; };
 		E02CD8191AE7E07100A9A6A6 /* ALXHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD8181AE7E07100A9A6A6 /* ALXHTTPRequest.m */; };
-		E02CD81C1AE7E6E200A9A6A6 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD81B1AE7E6E200A9A6A6 /* Article.m */; };
+		E02CD81C1AE7E6E200A9A6A6 /* ALXArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD81B1AE7E6E200A9A6A6 /* ALXArticle.m */; };
+		E02CD81F1AE7EC6000A9A6A6 /* ALXArticlesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD81E1AE7EC6000A9A6A6 /* ALXArticlesManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,8 +49,10 @@
 		E02CD80A1AE7DC1E00A9A6A6 /* ArticlesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticlesTests.m; sourceTree = "<group>"; };
 		E02CD8171AE7E07100A9A6A6 /* ALXHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXHTTPRequest.h; sourceTree = "<group>"; };
 		E02CD8181AE7E07100A9A6A6 /* ALXHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXHTTPRequest.m; sourceTree = "<group>"; };
-		E02CD81A1AE7E6E200A9A6A6 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
-		E02CD81B1AE7E6E200A9A6A6 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
+		E02CD81A1AE7E6E200A9A6A6 /* ALXArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXArticle.h; sourceTree = "<group>"; };
+		E02CD81B1AE7E6E200A9A6A6 /* ALXArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXArticle.m; sourceTree = "<group>"; };
+		E02CD81D1AE7EC6000A9A6A6 /* ALXArticlesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXArticlesManager.h; sourceTree = "<group>"; };
+		E02CD81E1AE7EC6000A9A6A6 /* ALXArticlesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXArticlesManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,10 +155,12 @@
 		E02CD8141AE7DFF300A9A6A6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E02CD81A1AE7E6E200A9A6A6 /* ALXArticle.h */,
+				E02CD81B1AE7E6E200A9A6A6 /* ALXArticle.m */,
+				E02CD81D1AE7EC6000A9A6A6 /* ALXArticlesManager.h */,
+				E02CD81E1AE7EC6000A9A6A6 /* ALXArticlesManager.m */,
 				E02CD8171AE7E07100A9A6A6 /* ALXHTTPRequest.h */,
 				E02CD8181AE7E07100A9A6A6 /* ALXHTTPRequest.m */,
-				E02CD81A1AE7E6E200A9A6A6 /* Article.h */,
-				E02CD81B1AE7E6E200A9A6A6 /* Article.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -312,10 +317,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E02CD81C1AE7E6E200A9A6A6 /* Article.m in Sources */,
+				E02CD81C1AE7E6E200A9A6A6 /* ALXArticle.m in Sources */,
 				E02CD7F71AE7DC1E00A9A6A6 /* ALXViewController.m in Sources */,
 				E02CD8191AE7E07100A9A6A6 /* ALXHTTPRequest.m in Sources */,
 				E02CD7F41AE7DC1E00A9A6A6 /* ALXAppDelegate.m in Sources */,
+				E02CD81F1AE7EC6000A9A6A6 /* ALXArticlesManager.m in Sources */,
 				E02CD7F11AE7DC1E00A9A6A6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

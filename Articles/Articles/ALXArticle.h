@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface Article : NSObject
+@interface ALXArticle : NSObject
 
 @property NSString *authors,*content,*date,*title,*website;
 @property UIImage *image;

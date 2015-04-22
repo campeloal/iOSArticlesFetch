@@ -7,10 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+@protocol HTTPRequestProtocol <NSObject>
+
+@required
+
+-(void) fetchURL;
+
+@optional
+-(BOOL) urlExists:(NSString*)url;
+
+@end
 
 @interface ALXHTTPRequest : NSObject
-
--(void) fetchArticles;
--(void) fetchImageWithURLString: (NSString*) urlString;
 
 @end

@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Alex De Souza Campelo Lima. All rights reserved.
 //
 
-#import "Article.h"
+#import "ALXArticle.h"
 
-@implementation Article
+@implementation ALXArticle
 
 @end

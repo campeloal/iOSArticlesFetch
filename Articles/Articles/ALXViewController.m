@@ -7,10 +7,10 @@
 //
 
 #import "ALXViewController.h"
-#import "ALXHTTPRequest.h"
 
 @interface ALXViewController ()
 
+@property ALXArticlesManager *artManager;
 
 @end
 
@@ -20,17 +20,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    ALXHTTPRequest *request = [[ALXHTTPRequest alloc] init];
+    _artManager = [[ALXArticlesManager alloc] init];
+    _artManager.delegate = self;
     
-    [request fetchArticles];
-    
-    [request fetchImageWithURLString:@"http://lorempixel.com/400/400/technics/1/"];
+    [_artManager fetchURL];
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void) updateArticles
+{
+    NSLog(@"articles %@",_artManager.articles);
 }
 
 @end

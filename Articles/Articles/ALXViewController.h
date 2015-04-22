@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ALXArticlesManager.h"
 
 @interface ALXViewController : UIViewController
 
