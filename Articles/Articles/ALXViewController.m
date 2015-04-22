@@ -7,8 +7,10 @@
 //
 
 #import "ALXViewController.h"
+#import "ALXHTTPRequest.h"
 
 @interface ALXViewController ()
+
 
 @end
 
@@ -17,6 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    ALXHTTPRequest *request = [[ALXHTTPRequest alloc] init];
+    
+    [request fetchArticles];
+    
+    [request fetchImageWithURLString:@"http://lorempixel.com/400/400/technics/1/"];
+    
 }
 
 - (void)didReceiveMemoryWarning {
