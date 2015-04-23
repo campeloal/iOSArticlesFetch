@@ -11,12 +11,13 @@
 #import "ALXArticleTableViewCell.h"
 #import "ALXArticleDetailViewController.h"
 #import "ALXSortViewController.h"
-#import <POP/POP.h>
+#import "ALXAnimationsAndEffects.h"
 
 @interface ALXArticleTableViewController ()
 
 @property ALXArticlesManager *artManager;
 @property (strong, nonatomic) IBOutlet UITableView *artTableView;
+@property ALXAnimationsAndEffects *animationsAndEffects;
 @property UIView *sortView;
 
 @end
@@ -31,6 +32,8 @@
     _artManager.delegate = self;
     
     [_artManager fetchURL];
+    
+    _animationsAndEffects = [[ALXAnimationsAndEffects alloc] init];
     
 }
 
@@ -58,40 +61,19 @@
 
 #pragma mark - Animations
 
--(void) animateSortView
-{
-    POPSpringAnimation *bounceAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    bounceAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.05, 1.05)];
-    bounceAnimation.springBounciness = 35.f;
-    [_sortView.layer pop_addAnimation:bounceAnimation forKey:@"bounceAnimArticle"];
-}
-
 -(void)animateTableViewCells
 {
     NSArray *rows = [self.tableView indexPathsForVisibleRows];
     for (NSIndexPath *path in rows) {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
-        POPSpringAnimation *posXAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-        posXAnimation.fromValue = @(600);
-        posXAnimation.springBounciness = 16;
-        posXAnimation.springSpeed =10;
-        [cell.layer pop_addAnimation:posXAnimation forKey:@"bounceAnimArticle"];
+        
+        [_animationsAndEffects slideFromTheRight:cell.layer FromValue:600 Bounciness:16 WithSpeed:10];
     }
 }
 
 -(void) animateViewControllerTransition:(ALXArticleDetailViewController*) detail
 {
-    POPSpringAnimation *posXAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-    POPSpringAnimation *sizeAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerSize];
-    
-    posXAnimation.fromValue = @(600);
-    posXAnimation.springBounciness = 16;
-    posXAnimation.springSpeed =10;
-    
-    sizeAnimation.fromValue = [NSValue valueWithCGSize:CGSizeMake(64, 114)];
-    
-    [detail.view.layer pop_addAnimation:posXAnimation forKey:@"posXAnimArticle"];
-    [detail.view.layer pop_addAnimation:sizeAnimation forKey:@"sizeAnimArticle"];
+    [_animationsAndEffects slide:detail.view.layer FromValue:600 WithBounciness:16 Speed:10 AndResizeWidth:64 Height:114];
 }
 
 #pragma mark - Table view
@@ -199,6 +181,11 @@
 {
     [self freezeTableView];
     
+    UIImage *blur = [_animationsAndEffects captureBlurInView:self.view];
+    UIImageView *blurView = [[UIImageView alloc] initWithImage:blur];
+    
+    [self.view addSubview:blurView];
+    
     float screenWidth = [[UIScreen mainScreen] bounds].size.width;
     float screenHeight = [[UIScreen mainScreen] bounds].size.height;
     
@@ -214,10 +201,7 @@
     
     [self.view addSubview:_sortView];
     
-    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(0.8, 0.8)];
-    scaleAnimation.springBounciness = 20.f;
-    [_sortView.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnim"];
+    [_animationsAndEffects scaleAnimation:_sortView.layer WithBounciness:20.f ToValueWidth:0.8 Height:0.8];
 }
 
 -(void) freezeTableView

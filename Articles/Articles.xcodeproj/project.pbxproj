@@ -22,6 +22,8 @@
 		E02CD8251AE87B4100A9A6A6 /* ALXArticleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD8241AE87B4100A9A6A6 /* ALXArticleDetailViewController.m */; };
 		E02CD8271AE87D5C00A9A6A6 /* no_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E02CD8261AE87D5C00A9A6A6 /* no_icon.png */; };
 		E02CD82A1AE955A100A9A6A6 /* ALXSortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD8291AE955A100A9A6A6 /* ALXSortViewController.m */; };
+		E02CD82D1AE95E1B00A9A6A6 /* ALXAnimationsAndEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD82C1AE95E1B00A9A6A6 /* ALXAnimationsAndEffects.m */; };
+		E02CD8301AE963C900A9A6A6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD82F1AE963C900A9A6A6 /* UIImage+ImageEffects.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,10 @@
 		E02CD8261AE87D5C00A9A6A6 /* no_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_icon.png; sourceTree = "<group>"; };
 		E02CD8281AE955A100A9A6A6 /* ALXSortViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXSortViewController.h; sourceTree = "<group>"; };
 		E02CD8291AE955A100A9A6A6 /* ALXSortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXSortViewController.m; sourceTree = "<group>"; };
+		E02CD82B1AE95E1B00A9A6A6 /* ALXAnimationsAndEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXAnimationsAndEffects.h; sourceTree = "<group>"; };
+		E02CD82C1AE95E1B00A9A6A6 /* ALXAnimationsAndEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXAnimationsAndEffects.m; sourceTree = "<group>"; };
+		E02CD82E1AE963C900A9A6A6 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		E02CD82F1AE963C900A9A6A6 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +146,8 @@
 		E02CD7EE1AE7DC1E00A9A6A6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E02CD82E1AE963C900A9A6A6 /* UIImage+ImageEffects.h */,
+				E02CD82F1AE963C900A9A6A6 /* UIImage+ImageEffects.m */,
 				E02CD8261AE87D5C00A9A6A6 /* no_icon.png */,
 				E02CD7EF1AE7DC1E00A9A6A6 /* Info.plist */,
 				E02CD7F01AE7DC1E00A9A6A6 /* main.m */,
@@ -175,6 +183,8 @@
 				E02CD8181AE7E07100A9A6A6 /* ALXHTTPRequest.m */,
 				E02CD8201AE86FF300A9A6A6 /* ALXArticleTableViewCell.h */,
 				E02CD8211AE86FF300A9A6A6 /* ALXArticleTableViewCell.m */,
+				E02CD82B1AE95E1B00A9A6A6 /* ALXAnimationsAndEffects.h */,
+				E02CD82C1AE95E1B00A9A6A6 /* ALXAnimationsAndEffects.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -340,8 +350,10 @@
 				E02CD7F71AE7DC1E00A9A6A6 /* ALXArticleTableViewController.m in Sources */,
 				E02CD8221AE86FF300A9A6A6 /* ALXArticleTableViewCell.m in Sources */,
 				E02CD8191AE7E07100A9A6A6 /* ALXHTTPRequest.m in Sources */,
+				E02CD8301AE963C900A9A6A6 /* UIImage+ImageEffects.m in Sources */,
 				E02CD8251AE87B4100A9A6A6 /* ALXArticleDetailViewController.m in Sources */,
 				E02CD7F41AE7DC1E00A9A6A6 /* ALXAppDelegate.m in Sources */,
+				E02CD82D1AE95E1B00A9A6A6 /* ALXAnimationsAndEffects.m in Sources */,
 				E02CD82A1AE955A100A9A6A6 /* ALXSortViewController.m in Sources */,
 				E02CD81F1AE7EC6000A9A6A6 /* ALXArticlesManager.m in Sources */,
 				E02CD7F11AE7DC1E00A9A6A6 /* main.m in Sources */,
