@@ -7,7 +7,7 @@
 //
 
 #import "ALXArticleTableViewController.h"
-#import "ALXArticle.h"
+#import "ALXArticleModel.h"
 #import "ALXArticleTableViewCell.h"
 #import "ALXArticleDetailViewController.h"
 #import "ALXAnimationsAndEffects.h"
@@ -30,11 +30,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    _artManager = [[ALXArticlesManager alloc] init];
+    _artManager = [ALXArticlesManager sharedModel];
     _artManager.delegate = self;
     [self hideSortBarButtonItem];
     
-    [_artManager fetchURL];
+    [_artManager loadArticles];
     
     _animationsAndEffects = [[ALXAnimationsAndEffects alloc] init];
     
@@ -117,33 +117,29 @@
     }
     
     
-    ALXArticle *article = [_artManager getArticleAtIndex:indexPath.row];
+    ALXArticleModel *article = [_artManager getArticleAtIndex:indexPath.row];
     UIImage *artImage = article.image;
     
     if (artImage)
     {
         cell.image.image = article.image;
     }
+    else
+    {
+        cell.image.image = [UIImage imageNamed:@"no_icon.png"];
+    }
     
     cell.title.text = article.title;
     cell.date.text = article.date;
     cell.author.text = article.authors;
-    
-    if (!article.isSeen)
-    {
-        cell.artSeenLabel.hidden = YES;
-    }
-    else
-    {
-        cell.artSeenLabel.hidden = NO;
-    }
+    cell.isReadLabel.text = article.isRead;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_artManager setArticleIsSeen:indexPath.row];
+    [_artManager setArticleIsRead:indexPath.row];
     
 }
 
@@ -165,6 +161,11 @@
     }
 }
 
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    [self showSortView];
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -177,7 +178,7 @@
         
         NSIndexPath *index = [self.artTableView indexPathForSelectedRow];
         
-        ALXArticle *article = [_artManager getArticleAtIndex:index.row];
+        ALXArticleModel *article = [_artManager getArticleAtIndex:index.row];
         
         detail.artContent = article.content;
         detail.artTitle = article.title;
@@ -196,42 +197,57 @@
     }
 }
 
-- (IBAction)showSortView:(id)sender
+-(void) showSortView
 {
+    UIImage *blur = [_animationsAndEffects captureBlurInView:self.view];
+    _blurView = [[UIImageView alloc] initWithImage:blur];
+    
+    [self hideSortBarButtonItem];
+    
+    [self freezeTableView];
+    
+    [self.view addSubview:_blurView];
+    
+    float screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    float screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    
+    float sortViewWidth = screenWidth*0.8;
+    float sortViewHeight = screenHeight*0.6;
+    
+    float centerX = screenWidth/2 - sortViewWidth/2;
+    float centerY = screenHeight/2 - sortViewHeight/2;
+    
+    float red = 0.0;
+    float green = 0.53;
+    float blue = 1.0;
+    
+    _sortView = [[UIView alloc] initWithFrame:CGRectMake(centerX,centerY, sortViewWidth, sortViewHeight)];
+    
+    _sortView.backgroundColor = [[UIColor alloc] initWithRed:red green:green blue:blue alpha:1.0];
+    
+    [self createSortButtonsInView:_sortView];
+    
+    [self.view addSubview:_sortView];
+    
+    [_animationsAndEffects scaleAnimation:_sortView.layer WithBounciness:20.f ToValueWidth:0.8 Height:0.8];
+}
+
+- (IBAction)sortRequest:(id)sender
+{
+    const float initialYContentOffset = -64.0f;
+    
     if(!_isSortHidden)
     {
-        
-        [self freezeTableView];
-        
-        [self hideSortBarButtonItem];
-        
-        UIImage *blur = [_animationsAndEffects captureBlurInView:self.view];
-        _blurView = [[UIImageView alloc] initWithImage:blur];
-        
-        [self.view addSubview:_blurView];
-        
-        float screenWidth = [[UIScreen mainScreen] bounds].size.width;
-        float screenHeight = [[UIScreen mainScreen] bounds].size.height;
-        
-        float sortViewWidth = screenWidth*0.8;
-        float sortViewHeight = screenHeight*0.6;
-        
-        float centerX = screenWidth/2 - sortViewWidth/2;
-        float centerY = screenHeight/2 - sortViewHeight/2;
-        
-        float red = 0.0;
-        float green = 0.53;
-        float blue = 1.0;
-        
-        _sortView = [[UIView alloc] initWithFrame:CGRectMake(centerX,centerY, sortViewWidth, sortViewHeight)];
-        
-        _sortView.backgroundColor = [[UIColor alloc] initWithRed:red green:green blue:blue alpha:1.0];
-        
-        [self createSortButtonsInView:_sortView];
-        
-        [self.view addSubview:_sortView];
-        
-        [_animationsAndEffects scaleAnimation:_sortView.layer WithBounciness:20.f ToValueWidth:0.8 Height:0.8];
+        //If didn't scroll the table view, show sort view
+        if (_artTableView.contentOffset.y == initialYContentOffset)
+        {
+            [self showSortView];
+        }
+        //Otherwise, scroll to the top and then show sort view
+        else
+        {
+            [_artTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        }
     }
 }
 

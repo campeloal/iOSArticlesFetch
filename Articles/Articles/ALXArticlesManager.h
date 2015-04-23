@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ALXHTTPRequest.h"
-@class ALXArticle;
+@class ALXArticleModel;
 
 @protocol ArticleProtocol <NSObject>
 
@@ -24,11 +24,14 @@
 
 @property (nonatomic, assign) id delegate;
 
--(ALXArticle*) getArticleAtIndex:(NSInteger) index;
++ (instancetype)sharedModel;
+
+-(ALXArticleModel*) getArticleAtIndex:(NSInteger) index;
 -(NSUInteger) getNumberOfArticles;
--(void) setArticleIsSeen:(NSInteger) index;
+-(void) setArticleIsRead:(NSInteger) index;
 -(void) sortArticleByTitle;
 -(void) sortArticleByAuthor;
 -(void) sortArticleByDate;
+-(void) loadArticles;
 
 @end

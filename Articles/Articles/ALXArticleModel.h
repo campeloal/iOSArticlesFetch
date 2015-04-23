@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ALXArticle : NSObject
+@interface ALXArticleModel : NSObject
 
-@property NSString *authors,*content,*date,*title,*website;
-@property BOOL isSeen;
+@property NSString *authors,*content,*date,*title,*website,*isRead;
 @property UIImage *image;
 
 @end

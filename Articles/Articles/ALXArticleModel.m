@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Alex De Souza Campelo Lima. All rights reserved.
 //
 
-#import "ALXArticle.h"
+#import "ALXArticleModel.h"
 
-@implementation ALXArticle
+@implementation ALXArticleModel
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _isSeen = NO;
+        _isRead = @"";
     }
     return self;
 }

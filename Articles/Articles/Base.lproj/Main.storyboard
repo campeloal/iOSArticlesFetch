@@ -141,10 +141,10 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.87843137250000003" green="0.78189477815762376" blue="0.4750727075304399" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <outlet property="artSeenLabel" destination="VdT-n5-DTo" id="AL6-vI-fvS"/>
                                     <outlet property="author" destination="gXc-4F-Sa8" id="Mbk-8q-FRa"/>
                                     <outlet property="date" destination="Ep6-oh-IrV" id="alX-xi-AxR"/>
                                     <outlet property="image" destination="7EE-OD-c2q" id="aBk-In-q4P"/>
+                                    <outlet property="isReadLabel" destination="VdT-n5-DTo" id="znY-yb-WvU"/>
                                     <outlet property="title" destination="JG9-Ee-QlW" id="uAF-sY-yzu"/>
                                     <segue destination="nyS-DS-FDa" kind="show" identifier="showContent" id="viZ-k7-Ckd"/>
                                 </connections>
@@ -158,7 +158,7 @@
                     <navigationItem key="navigationItem" title="Articles" id="tbR-wy-NsX">
                         <barButtonItem key="rightBarButtonItem" title="Sort" id="DI9-2p-ZIS">
                             <connections>
-                                <action selector="showSortView:" destination="HY6-Cb-YO4" id="iv1-tl-np7"/>
+                                <action selector="sortRequest:" destination="HY6-Cb-YO4" id="cOQ-ch-SQn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

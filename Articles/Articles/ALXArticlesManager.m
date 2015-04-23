@@ -7,7 +7,9 @@
 //
 
 #import "ALXArticlesManager.h"
-#import "ALXArticle.h"
+#import "Article.h"
+#import "ALXArticleModel.h"
+#import "ALXAppDelegate.h"
 #import <AFNetworking/AFNetworking.h>
 
 NSString * const fetchURL = @"http://www.ckl.io/challenge/";
@@ -15,18 +17,53 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
 @interface ALXArticlesManager()
 
 @property NSMutableArray *articles;
+@property (nonatomic, strong) NSManagedObjectContext *context;
+@property ALXAppDelegate *appDelegate;
 
 @end
 
 @implementation ALXArticlesManager
 
+
 - (instancetype)init
+{
+    @throw [NSException exceptionWithName:@"Singleton"
+                                   reason:@"Use +[ALXArtitclesManager sharedModel]"
+                                 userInfo:nil];
+    return nil;
+}
+
++ (instancetype)sharedModel
+{
+    static ALXArticlesManager *sharedModel = nil;
+    
+    if (!sharedModel) {
+        sharedModel = [[self alloc] initPrivate];
+    }
+    
+    return sharedModel;
+}
+
+- (instancetype)initPrivate
 {
     self = [super init];
     if (self) {
         _articles = [[NSMutableArray alloc] init];
+        
+        _appDelegate = (ALXAppDelegate *)[[UIApplication sharedApplication] delegate];
+        _context = _appDelegate.managedObjectContext;
+        
     }
     return self;
+}
+
+-(void) loadArticles
+{
+    if(![self loadArticlesFromDatabase])
+    {
+        [self fetchURL];
+    }
+    
 }
 
 -(void) fetchURL
@@ -58,7 +95,7 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
     
     for (NSDictionary* article in jsonArray)
     {
-        ALXArticle *newArticle = [[ALXArticle alloc] init];
+        ALXArticleModel *newArticle = [[ALXArticleModel alloc] init];
         newArticle.title = [article objectForKey:@"title"];
         newArticle.website = [article objectForKey:@"website"];
         newArticle.authors = [article objectForKey:@"authors"];
@@ -86,6 +123,8 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
+    [self saveArticles];
+    
     [_delegate updateArticles];
 }
 
@@ -100,13 +139,15 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
     return NO;
 }
 
--(void) setArticleIsSeen:(NSInteger) index
+-(void) setArticleIsRead:(NSInteger) index
 {
-    ALXArticle *article = [_articles objectAtIndex:index];
-    article.isSeen = YES;
+    ALXArticleModel *article = [_articles objectAtIndex:index];
+    article.isRead = @"Read";
+    
+    [self updateArticle:index];
 }
 
--(ALXArticle*) getArticleAtIndex:(NSInteger) index
+-(ALXArticleModel*) getArticleAtIndex:(NSInteger) index
 {
     return [_articles objectAtIndex:index];
 }
@@ -144,6 +185,71 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
     _articles = [NSMutableArray arrayWithArray:sortedArray];
     
     [_delegate updateArticles];
+}
+
+- (BOOL)loadArticlesFromDatabase
+{
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Article" inManagedObjectContext:self.context];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc]init];
+    
+    request.entity = entity;
+    
+    NSError *error;
+    
+    NSArray *result = [self.context executeFetchRequest:request error:&error];
+    
+    if (!result) {
+        [NSException raise:@"Fetch failed" format:@"Reason: %@", [error localizedDescription]];
+    }
+    
+    _articles = [[NSMutableArray alloc] initWithArray:result];
+    
+    if (_articles.count > 0)
+    {
+        [_delegate updateArticles];
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(void) updateArticle:(NSInteger) index
+{
+    ALXArticleModel *article = [_articles objectAtIndex:index];
+    
+    NSFetchRequest *fetchRequest=[NSFetchRequest fetchRequestWithEntityName:@"Article"];
+    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"title==%@",article.title];
+    fetchRequest.predicate=predicate;
+    Article *articleCD=[[self.context executeFetchRequest:fetchRequest error:nil] lastObject];
+    
+    articleCD.title = article.title;
+    articleCD.authors = article.authors;
+    articleCD.content = article.content;
+    articleCD.website = article.website;
+    articleCD.date = article.date;
+    articleCD.image = article.image;
+    articleCD.isRead = article.isRead;
+    
+    [_appDelegate saveContext];
+}
+
+-(void) saveArticles
+{
+    for (ALXArticleModel *article in _articles)
+    {
+        Article *articleCD = [NSEntityDescription insertNewObjectForEntityForName:@"Article" inManagedObjectContext:self.context];
+        articleCD.title = article.title;
+        articleCD.authors = article.authors;
+        articleCD.content = article.content;
+        articleCD.website = article.website;
+        articleCD.date = article.date;
+        articleCD.image = article.image;
+        articleCD.isRead = article.isRead;
+        
+    }
+    
+    [_appDelegate saveContext];
 }
 
 @end
