@@ -12,6 +12,7 @@
 @interface ALXArticle : NSObject
 
 @property NSString *authors,*content,*date,*title,*website;
+@property BOOL isSeen;
 @property UIImage *image;
 
 

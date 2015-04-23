@@ -23,11 +23,30 @@
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7aI-XC-0Uj">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="204"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VdT-n5-DTo">
+                                                    <rect key="frame" x="23" y="170" width="89" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="34" id="3Hz-eT-C9y"/>
+                                                        <constraint firstAttribute="width" constant="89" id="ycC-T9-3E8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
+                                                    <color key="textColor" red="0.51338052489999997" green="0.39160188410000002" blue="0.22544061709999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=regular">
+                                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="22"/>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
                                             <color key="backgroundColor" red="0.87843137250000003" green="0.78189477819999997" blue="0.47507270750000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="VdT-n5-DTo" secondAttribute="bottom" id="Bsa-Qt-fFd"/>
+                                                <constraint firstItem="VdT-n5-DTo" firstAttribute="leading" secondItem="7aI-XC-0Uj" secondAttribute="leading" constant="23" id="IVf-QC-AIo"/>
+                                            </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AkN-qd-xG2">
                                             <rect key="frame" x="13" y="47" width="110" height="109"/>
-                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.51338052489999997" green="0.39160188410000002" blue="0.22544061709999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="109" id="3V6-il-IQs"/>
                                                 <constraint firstAttribute="width" constant="110" id="hjy-yS-gFs"/>
@@ -62,7 +81,7 @@
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ep6-oh-IrV">
-                                            <rect key="frame" x="129" y="173" width="162" height="21"/>
+                                            <rect key="frame" x="134" y="173" width="162" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="162" id="C8g-bV-1u0"/>
                                                 <constraint firstAttribute="height" constant="21" id="NHZ-su-CQW"/>
@@ -110,7 +129,7 @@
                                         <constraint firstItem="JG9-Ee-QlW" firstAttribute="leading" secondItem="7EE-OD-c2q" secondAttribute="trailing" constant="14" id="acy-Xn-3sq">
                                             <variation key="heightClass=regular-widthClass=regular" constant="50"/>
                                         </constraint>
-                                        <constraint firstItem="Ep6-oh-IrV" firstAttribute="leading" secondItem="EPL-7i-edD" secondAttribute="leadingMargin" constant="121" id="bxL-fo-eeh">
+                                        <constraint firstItem="Ep6-oh-IrV" firstAttribute="leading" secondItem="EPL-7i-edD" secondAttribute="leadingMargin" constant="126" id="bxL-fo-eeh">
                                             <variation key="heightClass=regular-widthClass=regular" constant="325"/>
                                         </constraint>
                                         <constraint firstAttribute="centerY" secondItem="7EE-OD-c2q" secondAttribute="centerY" id="jvw-Uc-aDy"/>
@@ -122,6 +141,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.87843137250000003" green="0.78189477815762376" blue="0.4750727075304399" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
+                                    <outlet property="artSeenLabel" destination="VdT-n5-DTo" id="AL6-vI-fvS"/>
                                     <outlet property="author" destination="gXc-4F-Sa8" id="Mbk-8q-FRa"/>
                                     <outlet property="date" destination="Ep6-oh-IrV" id="alX-xi-AxR"/>
                                     <outlet property="image" destination="7EE-OD-c2q" id="aBk-In-q4P"/>
@@ -135,7 +155,13 @@
                             <outlet property="delegate" destination="HY6-Cb-YO4" id="Gr3-7G-GLX"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Articles" id="tbR-wy-NsX"/>
+                    <navigationItem key="navigationItem" title="Articles" id="tbR-wy-NsX">
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="DI9-2p-ZIS">
+                            <connections>
+                                <action selector="showSortView:" destination="HY6-Cb-YO4" id="iv1-tl-np7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="artTableView" destination="ymH-gg-wrF" id="Vct-cA-uJW"/>
                     </connections>

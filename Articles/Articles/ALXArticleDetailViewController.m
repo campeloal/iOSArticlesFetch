@@ -8,7 +8,6 @@
 
 #import "ALXArticleDetailViewController.h"
 
-
 @interface ALXArticleDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
@@ -58,7 +57,7 @@
     paragraphStyle.maximumLineHeight = spacing;
     paragraphStyle.minimumLineHeight = spacing;
     
-    NSDictionary *ats = @{
+    NSDictionary *ats = @{/*NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),*/
                           NSParagraphStyleAttributeName : paragraphStyle,
                           };
     
@@ -66,6 +65,7 @@
     int fontSize = 25;
     _contentTextView.font = [UIFont systemFontOfSize:fontSize];
     _contentTextView.textColor = [UIColor whiteColor];
+    _contentTextView.textAlignment = NSTextAlignmentJustified;
 }
 
 @end

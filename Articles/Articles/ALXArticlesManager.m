@@ -45,6 +45,8 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
      }
          failure:
      ^(AFHTTPRequestOperation *operation, NSError *error) {
+         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+         [_delegate couldNotUpdate];
          NSLog(@"Error: %@", error);
      }];
     
@@ -98,6 +100,11 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
     return NO;
 }
 
+-(void) setArticleIsSeen:(NSInteger) index
+{
+    ALXArticle *article = [_articles objectAtIndex:index];
+    article.isSeen = YES;
+}
 
 -(ALXArticle*) getArticleAtIndex:(NSInteger) index
 {

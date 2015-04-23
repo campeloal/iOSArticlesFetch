@@ -15,6 +15,7 @@
 @required
 
 -(void) updateArticles;
+-(void) couldNotUpdate;
 
 @end
 
@@ -25,5 +26,6 @@
 
 -(ALXArticle*) getArticleAtIndex:(NSInteger) index;
 -(NSUInteger) getNumberOfArticles;
+-(void) setArticleIsSeen:(NSInteger) index;
 
 @end

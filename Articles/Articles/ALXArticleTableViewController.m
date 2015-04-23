@@ -10,12 +10,14 @@
 #import "ALXArticle.h"
 #import "ALXArticleTableViewCell.h"
 #import "ALXArticleDetailViewController.h"
+#import "ALXSortViewController.h"
 #import <POP/POP.h>
 
 @interface ALXArticleTableViewController ()
 
 @property ALXArticlesManager *artManager;
 @property (strong, nonatomic) IBOutlet UITableView *artTableView;
+@property UIView *sortView;
 
 @end
 
@@ -37,6 +39,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    [_artTableView reloadData];
+}
+
+-(void) couldNotUpdate
+{
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"It wasn't possible to connect" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+    [alert show];
+}
+
 -(void) updateArticles
 {
     [_artTableView reloadData];
@@ -47,11 +60,10 @@
 
 -(void) animateSortView
 {
-//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
-//    POPSpringAnimation *bounceAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-//    bounceAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.05, 1.05)];
-//    bounceAnimation.springBounciness = 35.f;
-//    [cell.layer pop_addAnimation:bounceAnimation forKey:@"bounceAnimArticle"];
+    POPSpringAnimation *bounceAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    bounceAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.05, 1.05)];
+    bounceAnimation.springBounciness = 35.f;
+    [_sortView.layer pop_addAnimation:bounceAnimation forKey:@"bounceAnimArticle"];
 }
 
 -(void)animateTableViewCells
@@ -116,7 +128,22 @@
     cell.date.text = article.date;
     cell.author.text = article.authors;
     
+    if (!article.isSeen)
+    {
+        cell.artSeenLabel.hidden = YES;
+    }
+    else
+    {
+        cell.artSeenLabel.hidden = NO;
+    }
+    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [_artManager setArticleIsSeen:indexPath.row];
+    
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -168,5 +195,51 @@
     }
 }
 
+- (IBAction)showSortView:(id)sender
+{
+    [self freezeTableView];
+    
+    float screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    float screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    
+    float sortViewWidth = screenWidth*0.8;
+    float sortViewHeight = screenHeight*0.6;
+    
+    float centerX = screenWidth/2 - sortViewWidth/2;
+    float centerY = screenHeight/2 - sortViewHeight/2;
+    
+    _sortView = [[UIView alloc] initWithFrame:CGRectMake(centerX,centerY, sortViewWidth, sortViewHeight)];
+    
+    _sortView.backgroundColor = [UIColor brownColor];
+    
+    [self.view addSubview:_sortView];
+    
+    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(0.8, 0.8)];
+    scaleAnimation.springBounciness = 20.f;
+    [_sortView.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnim"];
+}
+
+-(void) freezeTableView
+{
+    _artTableView.scrollEnabled = NO;
+    
+    NSArray *rows = [self.tableView indexPathsForVisibleRows];
+    for (NSIndexPath *path in rows) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+        cell.userInteractionEnabled = NO;
+    }
+}
+
+-(void) unfreezeTableView
+{
+    _artTableView.scrollEnabled = YES;
+    
+    NSArray *rows = [self.tableView indexPathsForVisibleRows];
+    for (NSIndexPath *path in rows) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+        cell.userInteractionEnabled = YES;
+    }
+}
 
 @end

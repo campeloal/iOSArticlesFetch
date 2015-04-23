@@ -10,4 +10,13 @@
 
 @implementation ALXArticle
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _isSeen = NO;
+    }
+    return self;
+}
+
 @end
