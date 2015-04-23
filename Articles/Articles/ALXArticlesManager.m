@@ -74,6 +74,10 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
             [_articles addObject:newArticle];
             
         }
+        else
+        {
+            newArticle.image = nil;
+        }
         
         
     }

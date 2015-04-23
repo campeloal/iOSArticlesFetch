@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ALXArticlesManager.h"
 
-@interface ALXViewController : UITableViewController
+@interface ALXArticleTableViewController : UITableViewController
 
 
 @end

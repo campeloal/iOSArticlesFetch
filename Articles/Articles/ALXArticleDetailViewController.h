@@ -10,6 +10,7 @@
 
 @interface ALXArticleDetailViewController : UIViewController
 
-@property NSString *content;
+@property NSString *artContent,*artTitle,*artDate,*artAuthor,*artWebsite;
+@property UIImage *artImage;
 
 @end

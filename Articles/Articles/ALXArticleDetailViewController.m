@@ -11,6 +11,11 @@
 @interface ALXArticleDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *authorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *websiteLabel;
 
 @end
 
@@ -21,6 +26,14 @@
     // Do any additional setup after loading the view.
     
     [self setupTextView];
+    
+    _titleLabel.text = _artTitle;
+    _authorLabel.text = _artAuthor;
+    _dateLabel.text = _artDate;
+    _websiteLabel.text = _artWebsite;
+    
+    if(_artImage)
+        _imageView.image = _artImage;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -45,7 +58,7 @@
                           NSParagraphStyleAttributeName : paragraphStyle,
                           };
     
-    _contentTextView.attributedText = [[NSAttributedString alloc] initWithString:_content attributes:ats];
+    _contentTextView.attributedText = [[NSAttributedString alloc] initWithString:_artContent attributes:ats];
     _contentTextView.textColor = [UIColor whiteColor];
     _contentTextView.font = [UIFont systemFontOfSize:25];
 }

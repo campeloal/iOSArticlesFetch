@@ -6,19 +6,19 @@
 //  Copyright (c) 2015 Alex De Souza Campelo Lima. All rights reserved.
 //
 
-#import "ALXViewController.h"
+#import "ALXArticleTableViewController.h"
 #import "ALXArticle.h"
 #import "ALXArticleTableViewCell.h"
 #import "ALXArticleDetailViewController.h"
 
-@interface ALXViewController ()
+@interface ALXArticleTableViewController ()
 
 @property ALXArticlesManager *artManager;
 @property (strong, nonatomic) IBOutlet UITableView *artTableView;
 
 @end
 
-@implementation ALXViewController
+@implementation ALXArticleTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,7 +41,7 @@
     [_artTableView reloadData];
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view
 
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -70,11 +70,30 @@
     {
         cell.image.image = article.image;
     }
+    
     cell.title.text = article.title;
     cell.date.text = article.date;
     cell.author.text = article.authors;
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Remove seperator inset
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    // Prevent the cell from inheriting the Table View's margin settings
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    // Explictly set layout margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
 }
 
 #pragma mark - Navigation
@@ -91,7 +110,17 @@
         
         ALXArticle *article = [_artManager getArticleAtIndex:index.row];
         
-        detail.content = article.content;
+        detail.artContent = article.content;
+        detail.artTitle = article.title;
+        detail.artDate = article.date;
+        detail.artContent = article.content;
+        detail.artAuthor = article.authors;
+        detail.artWebsite = article.website;
+        
+        if (article.image)
+        {
+            detail.artImage = article.image;
+        }
         
     }
 }
