@@ -15,5 +15,4 @@
 @property BOOL isSeen;
 @property UIImage *image;
 
-
 @end

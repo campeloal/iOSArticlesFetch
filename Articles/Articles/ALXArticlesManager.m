@@ -39,8 +39,8 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
     [manager GET:fetchURL parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
-         
-         [self parseJSON:responseObject];
+         //Do not freeze UI
+         [self performSelectorInBackground:@selector(parseJSON:) withObject:responseObject];
          
      }
          failure:
@@ -114,6 +114,36 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
 -(NSUInteger) getNumberOfArticles
 {
     return _articles.count;
+}
+
+-(void) sortArticleByTitle
+{
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+    NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+    NSArray *sortedArray = [_articles sortedArrayUsingDescriptors:descriptors];
+    _articles = [NSMutableArray arrayWithArray:sortedArray];
+    
+    [_delegate updateArticles];
+}
+
+-(void) sortArticleByAuthor
+{
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"authors" ascending:YES];
+    NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+    NSArray *sortedArray = [_articles sortedArrayUsingDescriptors:descriptors];
+    _articles = [NSMutableArray arrayWithArray:sortedArray];
+    
+    [_delegate updateArticles];
+}
+
+-(void) sortArticleByDate
+{
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+    NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+    NSArray *sortedArray = [_articles sortedArrayUsingDescriptors:descriptors];
+    _articles = [NSMutableArray arrayWithArray:sortedArray];
+    
+    [_delegate updateArticles];
 }
 
 @end

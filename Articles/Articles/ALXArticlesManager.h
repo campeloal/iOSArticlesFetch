@@ -27,5 +27,8 @@
 -(ALXArticle*) getArticleAtIndex:(NSInteger) index;
 -(NSUInteger) getNumberOfArticles;
 -(void) setArticleIsSeen:(NSInteger) index;
+-(void) sortArticleByTitle;
+-(void) sortArticleByAuthor;
+-(void) sortArticleByDate;
 
 @end

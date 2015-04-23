@@ -10,7 +10,6 @@
 #import "ALXArticle.h"
 #import "ALXArticleTableViewCell.h"
 #import "ALXArticleDetailViewController.h"
-#import "ALXSortViewController.h"
 #import "ALXAnimationsAndEffects.h"
 
 @interface ALXArticleTableViewController ()
@@ -19,6 +18,9 @@
 @property (strong, nonatomic) IBOutlet UITableView *artTableView;
 @property ALXAnimationsAndEffects *animationsAndEffects;
 @property UIView *sortView;
+@property UIImageView *blurView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
+@property BOOL isSortHidden;
 
 @end
 
@@ -30,6 +32,7 @@
     
     _artManager = [[ALXArticlesManager alloc] init];
     _artManager.delegate = self;
+    [self hideSortBarButtonItem];
     
     [_artManager fetchURL];
     
@@ -47,6 +50,19 @@
     [_artTableView reloadData];
 }
 
+-(void) hideSortBarButtonItem
+{
+    _sortButton.title = @"";
+    _isSortHidden = YES;
+    
+}
+
+-(void) unhideSortBarButtonItem
+{
+    _sortButton.title = @"Sort";
+    _isSortHidden = NO;
+}
+
 -(void) couldNotUpdate
 {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"It wasn't possible to connect" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
@@ -57,6 +73,8 @@
 {
     [_artTableView reloadData];
     [self animateTableViewCells];
+    
+    [self unhideSortBarButtonItem];
 }
 
 #pragma mark - Animations
@@ -97,6 +115,7 @@
     {
         cell = [[ALXArticleTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    
     
     ALXArticle *article = [_artManager getArticleAtIndex:indexPath.row];
     UIImage *artImage = article.image;
@@ -179,29 +198,130 @@
 
 - (IBAction)showSortView:(id)sender
 {
-    [self freezeTableView];
+    if(!_isSortHidden)
+    {
+        
+        [self freezeTableView];
+        
+        [self hideSortBarButtonItem];
+        
+        UIImage *blur = [_animationsAndEffects captureBlurInView:self.view];
+        _blurView = [[UIImageView alloc] initWithImage:blur];
+        
+        [self.view addSubview:_blurView];
+        
+        float screenWidth = [[UIScreen mainScreen] bounds].size.width;
+        float screenHeight = [[UIScreen mainScreen] bounds].size.height;
+        
+        float sortViewWidth = screenWidth*0.8;
+        float sortViewHeight = screenHeight*0.6;
+        
+        float centerX = screenWidth/2 - sortViewWidth/2;
+        float centerY = screenHeight/2 - sortViewHeight/2;
+        
+        float red = 0.0;
+        float green = 0.53;
+        float blue = 1.0;
+        
+        _sortView = [[UIView alloc] initWithFrame:CGRectMake(centerX,centerY, sortViewWidth, sortViewHeight)];
+        
+        _sortView.backgroundColor = [[UIColor alloc] initWithRed:red green:green blue:blue alpha:1.0];
+        
+        [self createSortButtonsInView:_sortView];
+        
+        [self.view addSubview:_sortView];
+        
+        [_animationsAndEffects scaleAnimation:_sortView.layer WithBounciness:20.f ToValueWidth:0.8 Height:0.8];
+    }
+}
+
+-(void) createSortButtonsInView:(UIView*) view
+{
+    //Name Button
+    UIButton *sortByTitle = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [sortByTitle addTarget:self
+               action:@selector(sortByTitle)
+     forControlEvents:UIControlEventTouchUpInside];
+    [sortByTitle setTitle:@"Sort By Name" forState:UIControlStateNormal];
     
-    UIImage *blur = [_animationsAndEffects captureBlurInView:self.view];
-    UIImageView *blurView = [[UIImageView alloc] initWithImage:blur];
+    float buttonWidth = view.frame.size.width*0.8;
+    float buttonHeight = view.frame.size.height*0.2;
+    float posX = view.frame.size.width/2 - buttonWidth/2;
+    float posY = view.frame.size.height/2 - buttonHeight/2;
+    float red = 0.0;
+    float green = 0.89;
+    float blue = 0.73;
+    float offset = 1.1;
     
-    [self.view addSubview:blurView];
+    sortByTitle.frame = CGRectMake(posX, posY - buttonHeight*offset, buttonWidth, buttonHeight);
+    sortByTitle.backgroundColor = [[UIColor alloc] initWithRed:red green:green blue:blue alpha:1.0];
+    int fontSize = 25;
+    sortByTitle.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+    [view addSubview:sortByTitle];
     
-    float screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    float screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    //Author Button
+    UIButton *sortByAuthor = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [sortByAuthor addTarget:self
+                   action:@selector(sortByAuthor)
+         forControlEvents:UIControlEventTouchUpInside];
+    [sortByAuthor setTitle:@"Sort By Author" forState:UIControlStateNormal];
     
-    float sortViewWidth = screenWidth*0.8;
-    float sortViewHeight = screenHeight*0.6;
+    sortByAuthor.frame = CGRectMake(posX, posY, buttonWidth, buttonHeight);
+    sortByAuthor.backgroundColor = [[UIColor alloc] initWithRed:red green:green blue:blue alpha:1.0];
+    sortByAuthor.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+    [view addSubview:sortByAuthor];
     
-    float centerX = screenWidth/2 - sortViewWidth/2;
-    float centerY = screenHeight/2 - sortViewHeight/2;
+    //Date Button
+    UIButton *sortByDate = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [sortByDate addTarget:self
+                   action:@selector(sortByDate)
+         forControlEvents:UIControlEventTouchUpInside];
+    [sortByDate setTitle:@"Sort By Date" forState:UIControlStateNormal];
     
-    _sortView = [[UIView alloc] initWithFrame:CGRectMake(centerX,centerY, sortViewWidth, sortViewHeight)];
+    sortByDate.frame = CGRectMake(posX, posY + buttonHeight*offset, buttonWidth, buttonHeight);
+    sortByDate.backgroundColor = [[UIColor alloc] initWithRed:red green:green blue:blue alpha:1.0];
+    sortByDate.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+    [view addSubview:sortByDate];
     
-    _sortView.backgroundColor = [UIColor brownColor];
+}
+
+-(void) sortByTitle
+{
+    [_artManager sortArticleByTitle];
     
-    [self.view addSubview:_sortView];
+    [self unfreezeTableView];
     
-    [_animationsAndEffects scaleAnimation:_sortView.layer WithBounciness:20.f ToValueWidth:0.8 Height:0.8];
+    [self unhideSortBarButtonItem];
+    
+    [_sortView removeFromSuperview];
+    [_blurView removeFromSuperview];
+    
+}
+
+-(void) sortByAuthor
+{
+    [_artManager sortArticleByAuthor];
+    
+    [self unfreezeTableView];
+    
+    [self unhideSortBarButtonItem];
+    
+    [_sortView removeFromSuperview];
+    [_blurView removeFromSuperview];
+    
+}
+
+-(void) sortByDate
+{
+    [_artManager sortArticleByDate];
+    
+    [self unfreezeTableView];
+    
+    [self unhideSortBarButtonItem];
+    
+    [_sortView removeFromSuperview];
+    [_blurView removeFromSuperview];
+    
 }
 
 -(void) freezeTableView
