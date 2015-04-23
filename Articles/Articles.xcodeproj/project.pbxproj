@@ -18,6 +18,9 @@
 		E02CD8191AE7E07100A9A6A6 /* ALXHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD8181AE7E07100A9A6A6 /* ALXHTTPRequest.m */; };
 		E02CD81C1AE7E6E200A9A6A6 /* ALXArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD81B1AE7E6E200A9A6A6 /* ALXArticle.m */; };
 		E02CD81F1AE7EC6000A9A6A6 /* ALXArticlesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD81E1AE7EC6000A9A6A6 /* ALXArticlesManager.m */; };
+		E02CD8221AE86FF300A9A6A6 /* ALXArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD8211AE86FF300A9A6A6 /* ALXArticleTableViewCell.m */; };
+		E02CD8251AE87B4100A9A6A6 /* ALXArticleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E02CD8241AE87B4100A9A6A6 /* ALXArticleDetailViewController.m */; };
+		E02CD8271AE87D5C00A9A6A6 /* no_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E02CD8261AE87D5C00A9A6A6 /* no_icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,11 @@
 		E02CD81B1AE7E6E200A9A6A6 /* ALXArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXArticle.m; sourceTree = "<group>"; };
 		E02CD81D1AE7EC6000A9A6A6 /* ALXArticlesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXArticlesManager.h; sourceTree = "<group>"; };
 		E02CD81E1AE7EC6000A9A6A6 /* ALXArticlesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXArticlesManager.m; sourceTree = "<group>"; };
+		E02CD8201AE86FF300A9A6A6 /* ALXArticleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXArticleTableViewCell.h; sourceTree = "<group>"; };
+		E02CD8211AE86FF300A9A6A6 /* ALXArticleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXArticleTableViewCell.m; sourceTree = "<group>"; };
+		E02CD8231AE87B4100A9A6A6 /* ALXArticleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALXArticleDetailViewController.h; sourceTree = "<group>"; };
+		E02CD8241AE87B4100A9A6A6 /* ALXArticleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALXArticleDetailViewController.m; sourceTree = "<group>"; };
+		E02CD8261AE87D5C00A9A6A6 /* no_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +137,7 @@
 		E02CD7EE1AE7DC1E00A9A6A6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E02CD8261AE87D5C00A9A6A6 /* no_icon.png */,
 				E02CD7EF1AE7DC1E00A9A6A6 /* Info.plist */,
 				E02CD7F01AE7DC1E00A9A6A6 /* main.m */,
 			);
@@ -161,6 +170,8 @@
 				E02CD81E1AE7EC6000A9A6A6 /* ALXArticlesManager.m */,
 				E02CD8171AE7E07100A9A6A6 /* ALXHTTPRequest.h */,
 				E02CD8181AE7E07100A9A6A6 /* ALXHTTPRequest.m */,
+				E02CD8201AE86FF300A9A6A6 /* ALXArticleTableViewCell.h */,
+				E02CD8211AE86FF300A9A6A6 /* ALXArticleTableViewCell.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -170,6 +181,8 @@
 			children = (
 				E02CD7F51AE7DC1E00A9A6A6 /* ALXViewController.h */,
 				E02CD7F61AE7DC1E00A9A6A6 /* ALXViewController.m */,
+				E02CD8231AE87B4100A9A6A6 /* ALXArticleDetailViewController.h */,
+				E02CD8241AE87B4100A9A6A6 /* ALXArticleDetailViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -267,6 +280,7 @@
 				E02CD7FA1AE7DC1E00A9A6A6 /* Main.storyboard in Resources */,
 				E02CD7FF1AE7DC1E00A9A6A6 /* LaunchScreen.xib in Resources */,
 				E02CD7FC1AE7DC1E00A9A6A6 /* Images.xcassets in Resources */,
+				E02CD8271AE87D5C00A9A6A6 /* no_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +333,9 @@
 			files = (
 				E02CD81C1AE7E6E200A9A6A6 /* ALXArticle.m in Sources */,
 				E02CD7F71AE7DC1E00A9A6A6 /* ALXViewController.m in Sources */,
+				E02CD8221AE86FF300A9A6A6 /* ALXArticleTableViewCell.m in Sources */,
 				E02CD8191AE7E07100A9A6A6 /* ALXHTTPRequest.m in Sources */,
+				E02CD8251AE87B4100A9A6A6 /* ALXArticleDetailViewController.m in Sources */,
 				E02CD7F41AE7DC1E00A9A6A6 /* ALXAppDelegate.m in Sources */,
 				E02CD81F1AE7EC6000A9A6A6 /* ALXArticlesManager.m in Sources */,
 				E02CD7F11AE7DC1E00A9A6A6 /* main.m in Sources */,

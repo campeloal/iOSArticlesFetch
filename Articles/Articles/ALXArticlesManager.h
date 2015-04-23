@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ALXHTTPRequest.h"
+@class ALXArticle;
 
 @protocol ArticleProtocol <NSObject>
 
@@ -19,7 +20,10 @@
 
 @interface ALXArticlesManager : NSObject<HTTPRequestProtocol>
 
-@property NSMutableArray *articles;
+
 @property (nonatomic, assign) id delegate;
+
+-(ALXArticle*) getArticleAtIndex:(NSInteger) index;
+-(NSUInteger) getNumberOfArticles;
 
 @end

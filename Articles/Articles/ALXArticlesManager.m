@@ -14,6 +14,7 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
 
 @interface ALXArticlesManager()
 
+@property NSMutableArray *articles;
 
 @end
 
@@ -30,6 +31,7 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
 
 -(void) fetchURL
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -76,6 +78,8 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
         
     }
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
     [_delegate updateArticles];
 }
 
@@ -88,6 +92,17 @@ NSString * const fetchURL = @"http://www.ckl.io/challenge/";
     }
     
     return NO;
+}
+
+
+-(ALXArticle*) getArticleAtIndex:(NSInteger) index
+{
+    return [_articles objectAtIndex:index];
+}
+
+-(NSUInteger) getNumberOfArticles
+{
+    return _articles.count;
 }
 
 @end

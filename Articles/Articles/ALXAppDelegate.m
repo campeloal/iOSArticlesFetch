@@ -17,6 +17,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //Constant pointer to the font color
+    UIColor * const white = [UIColor whiteColor];
+    
+    
+    //Set all navigation bars title and background's color
+    [[UINavigationBar appearance] setTintColor:white];
+    
     return YES;
 }
 

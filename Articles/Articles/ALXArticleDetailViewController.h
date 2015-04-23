@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ALXArticleDetailViewController.h
 //  Articles
 //
 //  Created by Alex De Souza Campelo Lima on 4/22/15.
@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ALXArticlesManager.h"
 
-@interface ALXViewController : UITableViewController
+@interface ALXArticleDetailViewController : UIViewController
 
+@property NSString *content;
 
 @end
-

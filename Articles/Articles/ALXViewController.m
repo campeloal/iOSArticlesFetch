@@ -7,10 +7,14 @@
 //
 
 #import "ALXViewController.h"
+#import "ALXArticle.h"
+#import "ALXArticleTableViewCell.h"
+#import "ALXArticleDetailViewController.h"
 
 @interface ALXViewController ()
 
 @property ALXArticlesManager *artManager;
+@property (strong, nonatomic) IBOutlet UITableView *artTableView;
 
 @end
 
@@ -34,7 +38,63 @@
 
 -(void) updateArticles
 {
-    NSLog(@"articles %@",_artManager.articles);
+    [_artTableView reloadData];
 }
+
+#pragma mark - Table view data source
+
+-(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return  [_artManager getNumberOfArticles];
+}
+
+-(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"Cell";
+    ALXArticleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if(cell == nil)
+    {
+        cell = [[ALXArticleTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    ALXArticle *article = [_artManager getArticleAtIndex:indexPath.row];
+    UIImage *artImage = article.image;
+    
+    if (artImage)
+    {
+        cell.image.image = article.image;
+    }
+    cell.title.text = article.title;
+    cell.date.text = article.date;
+    cell.author.text = article.authors;
+    
+    return cell;
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if ([[segue identifier] isEqualToString:@"showContent"])
+    {
+        
+        ALXArticleDetailViewController*detail = (ALXArticleDetailViewController*)[segue destinationViewController];
+        
+        NSIndexPath *index = [self.artTableView indexPathForSelectedRow];
+        
+        ALXArticle *article = [_artManager getArticleAtIndex:index.row];
+        
+        detail.content = article.content;
+        
+    }
+}
+
 
 @end
