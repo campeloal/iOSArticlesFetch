@@ -10,6 +10,7 @@
 #import "ALXArticle.h"
 #import "ALXArticleTableViewCell.h"
 #import "ALXArticleDetailViewController.h"
+#import <POP/POP.h>
 
 @interface ALXArticleTableViewController ()
 
@@ -39,6 +40,46 @@
 -(void) updateArticles
 {
     [_artTableView reloadData];
+    [self animateTableViewCells];
+}
+
+#pragma mark - Animations
+
+-(void) animateSortView
+{
+//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+//    POPSpringAnimation *bounceAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+//    bounceAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.05, 1.05)];
+//    bounceAnimation.springBounciness = 35.f;
+//    [cell.layer pop_addAnimation:bounceAnimation forKey:@"bounceAnimArticle"];
+}
+
+-(void)animateTableViewCells
+{
+    NSArray *rows = [self.tableView indexPathsForVisibleRows];
+    for (NSIndexPath *path in rows) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+        POPSpringAnimation *posXAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+        posXAnimation.fromValue = @(600);
+        posXAnimation.springBounciness = 16;
+        posXAnimation.springSpeed =10;
+        [cell.layer pop_addAnimation:posXAnimation forKey:@"bounceAnimArticle"];
+    }
+}
+
+-(void) animateViewControllerTransition:(ALXArticleDetailViewController*) detail
+{
+    POPSpringAnimation *posXAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    POPSpringAnimation *sizeAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerSize];
+    
+    posXAnimation.fromValue = @(600);
+    posXAnimation.springBounciness = 16;
+    posXAnimation.springSpeed =10;
+    
+    sizeAnimation.fromValue = [NSValue valueWithCGSize:CGSizeMake(64, 114)];
+    
+    [detail.view.layer pop_addAnimation:posXAnimation forKey:@"posXAnimArticle"];
+    [detail.view.layer pop_addAnimation:sizeAnimation forKey:@"sizeAnimArticle"];
 }
 
 #pragma mark - Table view
@@ -121,6 +162,8 @@
         {
             detail.artImage = article.image;
         }
+        
+        [self animateViewControllerTransition:detail];
         
     }
 }

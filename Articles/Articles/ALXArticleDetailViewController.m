@@ -8,6 +8,7 @@
 
 #import "ALXArticleDetailViewController.h"
 
+
 @interface ALXArticleDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *websiteLabel;
+@property (weak, nonatomic) IBOutlet UIView *borderImage;
 
 @end
 
@@ -34,6 +36,7 @@
     
     if(_artImage)
         _imageView.image = _artImage;
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -49,28 +52,20 @@
 -(void)setupTextView
 {
     //Set textview spacing
+    float spacing = 50.0f;
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineHeightMultiple = 50.0f;
-    paragraphStyle.maximumLineHeight = 50.0f;
-    paragraphStyle.minimumLineHeight = 50.0f;
+    paragraphStyle.lineHeightMultiple = spacing;
+    paragraphStyle.maximumLineHeight = spacing;
+    paragraphStyle.minimumLineHeight = spacing;
     
     NSDictionary *ats = @{
                           NSParagraphStyleAttributeName : paragraphStyle,
                           };
     
     _contentTextView.attributedText = [[NSAttributedString alloc] initWithString:_artContent attributes:ats];
+    int fontSize = 25;
+    _contentTextView.font = [UIFont systemFontOfSize:fontSize];
     _contentTextView.textColor = [UIColor whiteColor];
-    _contentTextView.font = [UIFont systemFontOfSize:25];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
