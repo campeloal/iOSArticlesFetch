@@ -13,9 +13,20 @@
 
 @required
 
--(void) fetchURL;
+/**
+ *  Method that does a get request
+ */
+-(void) getRequest;
 
 @optional
+/**
+ *  Optional method to threat the case when
+ *the url is null
+ *
+ *  @param url url to be analyzed
+ *
+ *  @return yes if the url exists, otherwise, no
+ */
 -(BOOL) urlExists:(NSString*)url;
 
 @end

@@ -50,25 +50,21 @@
     [_artTableView reloadData];
 }
 
--(void) hideSortBarButtonItem
-{
-    _sortButton.title = @"";
-    _isSortHidden = YES;
-    
-}
-
--(void) unhideSortBarButtonItem
-{
-    _sortButton.title = @"Sort";
-    _isSortHidden = NO;
-}
-
+/**
+ *  Implementation of the ArticleProtocol.
+ * It shows an alert when it was not possible to connect
+ */
 -(void) couldNotUpdate
 {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"It wasn't possible to connect" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
     [alert show];
 }
 
+/**
+ *  Implementation of the ArticleProtocol.
+ * It updates the articles when the article's array is ready
+ *in the ALXArticlesManager
+ */
 -(void) updateArticles
 {
     [_artTableView reloadData];
@@ -79,6 +75,9 @@
 
 #pragma mark - Animations
 
+/**
+ *  Animate the table view cell when the table view is uploaded
+ */
 -(void)animateTableViewCells
 {
     NSArray *rows = [self.tableView indexPathsForVisibleRows];
@@ -89,6 +88,11 @@
     }
 }
 
+/**
+ *  Animate the entering of the ALXArticleDetailViewController
+ *
+ *  @param detail detail view controller
+ */
 -(void) animateViewControllerTransition:(ALXArticleDetailViewController*) detail
 {
     [_animationsAndEffects slide:detail.view.layer FromValue:600 WithBounciness:16 Speed:10 AndResizeWidth:64 Height:114];
@@ -139,6 +143,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //The article was read
     [_artManager setArticleIsRead:indexPath.row];
     
 }
@@ -163,11 +168,19 @@
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
+    //Show sort view after the scroll animation
     [self showSortView];
 }
 
 #pragma mark - Navigation
 
+/**
+ *  It goes to the details controller, setting its parameters
+ *based on the selected table view cell
+ *
+ *  @param segue  segue with the identifier
+ *  @param sender table view cell
+ */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
@@ -197,6 +210,58 @@
     }
 }
 
+#pragma mark - Sort View
+
+/**
+ *  Hide sort bar button item when the sort
+ *view is shown
+ */
+-(void) hideSortBarButtonItem
+{
+    _sortButton.title = @"";
+    _isSortHidden = YES;
+    
+}
+
+/**
+ *  Unhide sort bar button item when the sort
+ *view disappeared
+ */
+-(void) unhideSortBarButtonItem
+{
+    _sortButton.title = @"Sort";
+    _isSortHidden = NO;
+}
+
+/**
+ *  Requests the sort options when the
+ *bar button item is clicked
+ *
+ *  @param sender bar button item
+ */
+- (IBAction)sortRequest:(id)sender
+{
+    const float initialYContentOffset = -64.0f;
+    
+    if(!_isSortHidden)
+    {
+        //If didn't scroll the table view, show sort view
+        if (_artTableView.contentOffset.y == initialYContentOffset)
+        {
+            [self showSortView];
+        }
+        //Otherwise, scroll to the top and then show sort view
+        else
+        {
+            [_artTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        }
+    }
+}
+
+/**
+ *  It creates a sort view programmatically on the table view.
+ * It also creates a blur behind and hides the sort bar button
+ */
 -(void) showSortView
 {
     UIImage *blur = [_animationsAndEffects captureBlurInView:self.view];
@@ -232,25 +297,12 @@
     [_animationsAndEffects scaleAnimation:_sortView.layer WithBounciness:20.f ToValueWidth:0.8 Height:0.8];
 }
 
-- (IBAction)sortRequest:(id)sender
-{
-    const float initialYContentOffset = -64.0f;
-    
-    if(!_isSortHidden)
-    {
-        //If didn't scroll the table view, show sort view
-        if (_artTableView.contentOffset.y == initialYContentOffset)
-        {
-            [self showSortView];
-        }
-        //Otherwise, scroll to the top and then show sort view
-        else
-        {
-            [_artTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-        }
-    }
-}
 
+/**
+ *  It creates the sort buttons programmatically
+ *
+ *  @param view sort view
+ */
 -(void) createSortButtonsInView:(UIView*) view
 {
     //Name Button
@@ -301,6 +353,9 @@
     
 }
 
+/**
+ *  Sort articles in the ArticleManager by title
+ */
 -(void) sortByTitle
 {
     [_artManager sortArticleByTitle];
@@ -314,6 +369,9 @@
     
 }
 
+/**
+ *  Sort articles in the ArticleManager by author
+ */
 -(void) sortByAuthor
 {
     [_artManager sortArticleByAuthor];
@@ -327,6 +385,9 @@
     
 }
 
+/**
+ *  Sort articles in the ArticleManager by date
+ */
 -(void) sortByDate
 {
     [_artManager sortArticleByDate];
@@ -340,6 +401,9 @@
     
 }
 
+/**
+ *  It freezes the table view when the sort view is shown
+ */
 -(void) freezeTableView
 {
     _artTableView.scrollEnabled = NO;
@@ -351,6 +415,9 @@
     }
 }
 
+/**
+ *  It unfreezes the table view when the sort view disappeared
+ */
 -(void) unfreezeTableView
 {
     _artTableView.scrollEnabled = YES;

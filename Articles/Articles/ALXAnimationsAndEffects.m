@@ -12,6 +12,14 @@
 
 @implementation ALXAnimationsAndEffects
 
+/**
+ *  Scale animation using POP library
+ *
+ *  @param layer      layer to apply animation
+ *  @param bounciness bounce factor
+ *  @param width      final width
+ *  @param height     final height
+ */
 -(void) scaleAnimation:(CALayer*) layer WithBounciness:(float) bounciness
           ToValueWidth:(float) width Height: (float) height
 {
@@ -21,6 +29,14 @@
     [layer pop_addAnimation:scaleAnimation forKey:@"scaleAnim"];
 }
 
+/**
+ *  Slide from the right to the left using POP library
+ *
+ *  @param layer      layer to apply animation
+ *  @param value      initial value for the slide position
+ *  @param bounciness bounce factor
+ *  @param speed      slide's speed
+ */
 -(void) slideFromTheRight:(CALayer*) layer FromValue: (float) value Bounciness: (int) bounciness WithSpeed:(float) speed
 {
     POPSpringAnimation *posXAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
@@ -30,6 +46,17 @@
     [layer pop_addAnimation:posXAnimation forKey:@"slideAnim"];
 }
 
+
+/**
+ *  Animation that combines slide and resize
+ *
+ *  @param layer      layer to apply animations
+ *  @param value      initial value for the slide position
+ *  @param bounciness bounce factor
+ *  @param speed      slide's speed
+ *  @param width      final width for resizing
+ *  @param height     final height for resizing
+ */
 -(void) slide: (CALayer*) layer FromValue:(float) value  WithBounciness: (float) bounciness Speed: (float) speed AndResizeWidth: (float) width Height: (float) height
 {
     POPSpringAnimation *posXAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
@@ -45,6 +72,13 @@
     [layer pop_addAnimation:sizeAnimation forKey:@"sizeAnim"];
 }
 
+/**
+ *  Apply blur on a view using UIImage+ImageEffects library
+ *
+ *  @param view view to capture the blur
+ *
+ *  @return the blurred image
+ */
 - (UIImage*) captureBlurInView:(UIView*) view
 {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, [UIScreen mainScreen].scale);

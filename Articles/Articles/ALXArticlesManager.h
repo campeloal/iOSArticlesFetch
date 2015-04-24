@@ -14,7 +14,13 @@
 
 @required
 
+/**
+ *  Update the articles when the array is ready
+ */
 -(void) updateArticles;
+/**
+ *  Alert the user when it was not possible to connect
+ */
 -(void) couldNotUpdate;
 
 @end

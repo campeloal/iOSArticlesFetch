@@ -40,6 +40,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    //Set text view offset to go to the top later
     [_contentTextView setContentOffset:CGPointMake(0.0, 0.0) animated:YES];
 }
 
@@ -48,6 +49,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+/**
+ *  Setup the text view parameters as paragraph style
+ */
 -(void)setupTextView
 {
     //Set textview spacing
